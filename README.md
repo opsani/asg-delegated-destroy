@@ -56,5 +56,46 @@ plugin_config:
 			components: [ 'name1', ... ]
 ```
 
-
 See also the `ec2-asg` plugin documentation for details how to configure delegated destroy for your stack.
+
+## API Specification
+
+Endpoint: `/delayed-termination`
+
+### Healthcheck
+
+Request:
+	`GET /delayed-termination`
+
+Return document:
+    not defined (may be empty or no document)
+
+Status codes:
+    - 2xx: success, service is available
+    - any other: service is not available
+
+### Delegate destroy
+
+Request:
+	`POST /delayed-termination`
+
+Header:
+    `Content-type: application/json`
+
+Document:
+```
+   {
+   "ec2_region": <region>,
+   "ec2_instance_id": <instance_id>,
+   "ip_address": <ip_addr>,
+
+   "project": <skopos_project_name>,
+   "component": <skopos_component_name>,
+
+   "user_data": <opaque user-defined data structure from env>
+   }
+```
+
+Status codes:
+	- 2xx: success, instance accepted for delayed destruction
+	- any other: request failed
