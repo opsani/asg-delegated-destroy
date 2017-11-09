@@ -1,0 +1,31 @@
+doctype: com.datagridsys.doctype/skopos/model
+version: 1
+
+components:
+  ddsrv:
+    image: opsani/asg-delegated-destroy:latest
+
+    provides:
+      ports: ["8000"]
+
+    visual: { x: 380, y: 130 }
+
+    lifecycle:
+      quality_probe:
+        steps:
+        - probe:
+            image: opsani/probe-http
+            action: get_ok
+            label: Probe/wait for api on port 8000
+            arguments:
+              path: /delayed-termination
+              port: "8000"
+gateways:
+  gw:
+    type: host_port
+    exposes:
+    - name: api
+      port: "8000"
+    target: [ ddsrv ]
+    visual: { x: 80, y: 130 }
+
