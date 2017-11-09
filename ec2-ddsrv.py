@@ -1,6 +1,6 @@
 #!/usr/bin/python
 """
-# Copyright (c) 2017, Opsani.
+# Copyright (c) 2017, Opsani. See LICENSE file for license terms.
 
 EXAMPLE server process that implements 'delegated termination' API for use with
 the ec2-asg plugin.
